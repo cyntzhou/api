@@ -32,8 +32,11 @@ def get():
     url = "http://api.yummly.com/v1/api/recipes?_app_id=e8e8c50c&_app_key=4c0512521aa32bbd045b29900f91a176&q=cookies"
     request = urllib2.urlopen(url)
     res_string = request.read()
+    return res_string
     
-    
+@app.route("/search")
+def search():
+    return render_template("search.html")
 
 if __name__=="__main__":
     app.debug=True

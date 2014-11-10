@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Search
+{% endblock %}
+
+{% block body %}
+<form method="POST" class="pure-form pure-form-aligned">
+  <fieldset>
+    <legend>
+      Select your criteria!
+    </legend>
+    <div class="pure-control-group">
+      <label for="keyword">Keyword</label>
+      <input type="text" name="keyword" placeholder="Keyword">
+    </div>
+    <div class="pure-control-group">
+      <label for="password">New Password</label>
+      <input type="password" name="password" placeholder="New Password"><br>
+    </div>
+    <div class="pure-controls">
+      <input type="submit" class="pure-button pure-button-primary" name="button" value="search">
+      <input type="submit" class="pure-button pure-button-primary" name="button" value="cancel">
+    </div>
+  </fieldset>
+</form>
+{% endblock %}
