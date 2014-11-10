@@ -27,6 +27,14 @@ def t(tag="Cookies"):
         page = page + "<br>" + "<img height=200 src=%s>"%(r['smallImageUrls'][0])
     return page
 
+@app.route("/get")
+def get():
+    url = "http://api.yummly.com/v1/api/recipes?_app_id=e8e8c50c&_app_key=4c0512521aa32bbd045b29900f91a176&q=cookies"
+    request = urllib2.urlopen(url)
+    res_string = request.read()
+    
+    
+
 if __name__=="__main__":
     app.debug=True
     app.run()
