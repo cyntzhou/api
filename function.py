@@ -1,3 +1,4 @@
+from flask import Flask,request,url_for,redirect,render_template
 import urllib2, json
 
 def findFoods(tag):
@@ -7,15 +8,10 @@ def findFoods(tag):
      res_string = request.read()
      d = json.loads(res_string)
      matches = d['totalMatchCount']
-     page = "Search for "+tag+": "+str(matches)+" matches.<br>"
-     for r in d['matches']:
-          #keys = flavors,rating,totalTimeInSeconds,ingredients,smallImageUrls,sourceDisplayName,recipeName,attributes,id,imageUrlsBySize
-          page = page + "<br><br>" + "<a href='http://www.yummly.com/recipe/" + \
-                 r['id'] + "'>" + r['recipeName'] + "</a>" + "<br>Rating: " + \
-                 str(r['rating']) + "<br>Ingredients: "
-          for i in r['ingredients']:
-               page = page + i + ", "
-          page = page + "<br>" + "<img height=100 src=%s>"%(r['smallImageUrls'][0]) + "<br>" + r['id']
+     return render_template("findfoods.html",
+                            tag=tag,
+                            matches=matches,
+                            d=d)
      return page
 
 #MICHAEL, WHEN WE USED THE GET URL IN CLASS YESTERDAY IT WAS ACTUALLY THE SEARCH URL; THAT'S WHY IT SHOWED MULTIPLE RESULTS.. BECAUSE NOW WHEN I TRY TO SEARCH FOR SOMETHING USING THE GET URL, THE PAGE IS TELLING ME TO USE THE EXACT RECIPE-ID

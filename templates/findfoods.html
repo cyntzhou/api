@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block title %}
+findFoods()
+{% endblock %}
+
+{% block body %}
+Search for {{tag}}: {{matches}} matches.<br>
+{% for r in d['matches'] %}
+  <br><br>
+  <a href='http://www.yummly.com/recipe/{{r['id']}}'>{{r['recipename']}}</a><br>
+  Rating:{{r['rating']}}<br>
+  Ingredients:
+  {% for i in r['ingredients'] %}
+    {{i}}, 
+  {% endfor %}<br>
+  <img height=100 src={{r['smallImageUrls'][0]}}><br>
+  {{r['id']}}
+{% endfor %}
+{% endblock %}
