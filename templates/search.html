@@ -5,29 +5,40 @@ Search
 {% endblock %}
 
 {% block body %}
-<form method="POST" class="pure-form pure-form-aligned">
+<form method="POST" class="pure-form pure-form-stacked">
   <fieldset>
     <legend>
       Select your criteria!
     </legend>
-    <div class="pure-control-group">
-      <label for="keyword">Keyword</label>
-      <input type="text" name="keyword" placeholder="Keyword">
-    </div>
-    <div class="pure-control-group">
-      <label for="ingredients">Ingredients</label>
-      <input type="text" name="ingredients" placeholder="Ingredients, separated by commas"><br>
-    </div>
-    <div class="pure-control-group">
-      <label for="time">Time to Make</label>
-      <input type="text" name="time" placeholder="60"> minutes<br>
-    </div>
-    <div class="pure-control-group">
-      <label for="
-    <div class="pure-controls">
-      <input type="submit" class="pure-button pure-button-primary" name="button" value="search">
-      <input type="submit" class="pure-button pure-button-primary" name="button" value="cancel">
-    </div>
+
+    <label for="keyword">Keyword</label>
+    <input type="text" name="keyword" placeholder="Keyword"><br>
+
+    <label for="ingredients">Ingredients to Include</label>
+    <textarea name="include" placeholder="Ingredients, separated by commas" rows="5" columns="100"></textarea><br>
+
+    <label for="ingredients">Ingredients to Exclude</label>
+    <textarea name="exclude" placeholder="Ingredients, separated by commas" rows="5" columns="100"></textarea><br>
+
+    <label for="time">Maximum Time to Make (minutes)</label>
+    <input type="text" name="time" placeholder="60"><br>
+
+    <label for="Course">Course</label>
+    <input type="checkbox" name="course" value="Appetizers">Appetizers<br>
+    <input type="checkbox" name="course" value="Salads">Salads<br> 
+    <input type="checkbox" name="course" value="Breads">Breads<br> 
+    <input type="checkbox" name="course" value="Soups">Soups<br>
+    <input type="checkbox" name="course" value="Main Dishes">Main Dishes<br>
+    <input type="checkbox" name="course" value="Breakfast and Brunch">Breakfast and Brunch<br> 
+    <input type="checkbox" name="course" value="Lunch and Snacks">Lunch and Snacks<br>
+    <input type="checkbox" name="course" value="Condiments and Sauces">Condiments and Sauces<br>  
+    <input type="checkbox" name="course" value="Side Dishes">Side Dishes<br> 
+    <input type="checkbox" name="course" value="Desserts">Desserts<br>
+    <input type="checkbox" name="course" value="Beverages">Beverages<br> 
+    <input type="checkbox" name="course" value="Cocktails">Cocktails<br>
+    <input type="submit" class="pure-button pure-button-primary" name="button" value="search">
+    <input type="submit" class="pure-button pure-button-primary" name="button" value="cancel">
+
   </fieldset>
 </form>
 {% endblock %}
