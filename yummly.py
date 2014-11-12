@@ -43,7 +43,7 @@ def test():
 @app.route("/get/<id>")
 def get(id=""):
     if id:
-        d = function.calcFoods(id) #returns a dictionary or False
+        d = function.moreInfo(id) #returns a dictionary or False
         if d:
             return render_template("get.html",d=d)
     return "Invalid"
@@ -64,7 +64,6 @@ def search():
             course = request.form.getlist("course")
             cuisine = request.form.getlist("cuisine")
             tag = ""
-            return render_template("results.html")
             if keyword:
                 tag = tag + "&q=" + keyword
             if include:
@@ -100,19 +99,21 @@ def search():
                         "json":function.findFoods(tag)}
                 searchdb.insert(srch)
             res_string = srch["json"]
-            cal = {}
-            calcNum =0;
             d = json.loads(res_string)
-            for x in  d['matches']:
-                if 'smallImageUrls' not in x.keys():
-                    x['smallImageUrls']= "http://www.education.umd.edu/Academics/Faculty/Bios/images/generic_sm.jpg"
-                cal[calcNum]= function.calcFoods(x['id'])
-                calcNum += 1
+
+            #FINDING THE CALORIES RIGHT HERE REALLY SLOWS DOWN THE SEARCH PROCESS; ONE SEARCH WILL TAKE LIKE 15 SECONDS, SO I'M JUST GOING TO SHOW THE CALORIES IN ANOTHER "MORE INFO" PAGE THAT JUST SHOWS THE INFORMATION FOR AN INDIVIDUAL RECIPE
+            #cal = {}
+            #calcNum =0;
+            #for x in d['matches']:
+            #    if 'smallImageUrls' not in x.keys():
+            #        x['smallImageUrls']= "http://www.education.umd.edu/Academics/Faculty/Bios/images/generic_sm.jpg"
+            #    cal[calcNum]= function.calcFoods(x['id'])
+            #    calcNum += 1
         
             return render_template("findfoods.html",
                                    tag=tag,
-                                   d=d,
-                                   calc = cal)
+                                   d=d)
+            #                       calc = cal)
         else:
             return redirect("/")
 

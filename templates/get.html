@@ -8,31 +8,40 @@
 
 <h1>{{d['name']}}</h1>
 
-<a href="/">Add to Meal Plan</a><br><br>
+<!-- Let's forget about the meal plan idea lol
+<a href="/{{d['id']}}">Add to Meal Plan</a><br><br> -->
 <img height=150 src="{{d['images'][0]['hostedLargeUrl']}}"><br>{{d['images']['hostedLargeUrl']}}
 <br><br>
 <a href="{{d['source']['sourceRecipeUrl']}}">Original Recipe</a><br><br>
-Rating: {{d['rating']}} <br><br>
-Yields {{d['yield']}} <br><br>
-Total Time: {{d['totalTime']}} <br><br>
-Cuisines:
+<b>Rating: </b>{{d['rating']}} <br><br>
+{{d['yield']}} <br><br>
+<b>Total Time: </b>{{d['totalTime']}} <br><br>
+<b>Cuisines: </b>
+{% if d['attributes']['cuisine'] %}
 {% for i in d['attributes']['cuisine'] %}
 {{i}}<br>
 {% endfor %}
+{% else %}
+None
+{% endif %}
 <br><br>
-Ingredients: 
+<b>Ingredients: </b>
 {% for i in d['ingredientLines'] %}
 {{i}}<br>
 {% endfor %}
 <br><br>
-Flavors: 
+<b>Flavors: </b>
+{% if d['flavors'] %}
 {% for i in d['flavors'] %}
 {{i}}: d['flavors'][i]<br>
 {% endfor %}
+{% else %}
+None
+{% endif %}
 <br><br>
 
-Nutritional Information for {{d['name']}}.<br>
-
+<b>Nutritional Information</b>
+<br>
 {% for r in d['nutritionEstimates'] %}
 {{r["attribute"]}}: {{r["value"]}} {{r["unit"]["abbreviation"]}}<br>
 {% endfor %}<br>
