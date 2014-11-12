@@ -5,16 +5,32 @@ findFoods()
 {% endblock %}
 
 {% block body %}
-Search for {{tag}}: {{matches}} matches.<br>
+<!-- Search for {{tag}}: {{matches}} matches.<br> -->
+{% set x = 0 %}
+<table class="pure-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+	    <th>Rating</th>
+            <th>Calories</th>
+            <th>Ingredients</th>
+            <th>Picture</th>
+        </tr>
+    </thead>
 {% for r in d['matches'] %}
-  <br><br>
+  <tr>
+    <td>{{r['id']}}</td>
   <a href='http://www.yummly.com/recipe/{{r['id']}}'>{{r['recipename']}}</a><br>
-  Rating:{{r['rating']}}<br>
-  Ingredients:
+  <td>Rating:{{r['rating']}}</td>
+  <td>{{calc[x]}}</td>
+  {% set x = x+ 1 %}
+  <td>Ingredients:
   {% for i in r['ingredients'] %}
     {{i}}, 
-  {% endfor %}<br>
+  {% endfor %}</td>
+  <td>
   <img height=100 src={{r['smallImageUrls'][0]}}><br>
-  {{r['id']}}
+  </td>
+       <tr>
 {% endfor %}
 {% endblock %}

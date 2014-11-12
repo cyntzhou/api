@@ -59,7 +59,7 @@ def search():
             course = request.form.getlist("course")
             cuisine = request.form.getlist("cuisine")
             tag = ""
-            #return render_template("results.html")
+            return render_template("results.html")
             if keyword:
                 tag = tag + "&q=" + keyword
             if include:
@@ -95,13 +95,23 @@ def search():
                         "json":function.findFoods(tag)}
                 searchdb.insert(srch)
             res_string = srch["json"]
-            
+            cal = {}
+            calcNum =0;
             d = json.loads(res_string)
+            for x in  d['matches']:
+                if 'smallImageUrls' not in x.keys():
+                    x['smallImageUrls']= "http://www.education.umd.edu/Academics/Faculty/Bios/images/generic_sm.jpg"
+                cal[calcNum]= function.calcFoods(x['id'])
+                calcNum += 1
+                
+            
             matches = d['totalMatchCount']
+        
             return render_template("findfoods.html",
                                    tag=tag,
                                    matches=matches,
-                                   d=d)
+                                   d=d,
+                                   calc = cal)
         else:
             return redirect("/")
 
