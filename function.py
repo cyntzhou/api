@@ -6,13 +6,8 @@ def findFoods(tag):
      url = url%(tag)
      request = urllib2.urlopen(url)
      res_string = request.read()
-     d = json.loads(res_string)
-     matches = d['totalMatchCount']
-     return render_template("findfoods.html",
-                            tag=tag,
-                            matches=matches,
-                            d=d)
-     return page
+     #print "made an api request"
+     return res_string
 
 #MICHAEL, WHEN WE USED THE GET URL IN CLASS YESTERDAY IT WAS ACTUALLY THE SEARCH URL; THAT'S WHY IT SHOWED MULTIPLE RESULTS.. BECAUSE NOW WHEN I TRY TO SEARCH FOR SOMETHING USING THE GET URL, THE PAGE IS TELLING ME TO USE THE EXACT RECIPE-ID
 def calcFoods(id):
