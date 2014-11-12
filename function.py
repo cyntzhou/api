@@ -13,13 +13,15 @@ def findFoods(tag):
      return res_string
 
 #MICHAEL, WHEN WE USED THE GET URL IN CLASS YESTERDAY IT WAS ACTUALLY THE SEARCH URL; THAT'S WHY IT SHOWED MULTIPLE RESULTS.. BECAUSE NOW WHEN I TRY TO SEARCH FOR SOMETHING USING THE GET URL, THE PAGE IS TELLING ME TO USE THE EXACT RECIPE-ID
-def calcFoods(id):
-     url = "http://api.yummly.com/v1/api/recipe/"+id+"?_app_id="+appid+"&_app_key="+appkey
-     request = urllib2.urlopen(url)
-     res_string = request.read()
-     d = json.loads(res_string)
-     x = "The calories for this food is "
-     #keys:totalTime,ingredientLines,attribution,name,rating,numberOfServings,yield,nutritionEstimates,source,flavors,images,attributes,id,totalTimeInSeconds
-     x+=str(d['nutritionEstimates'][0].get("value"))
-     return x;
-          
+def calcFoods(id): #might get an error if invalid recipe-id
+     try:
+          url = "http://api.yummly.com/v1/api/recipe/"+id+"?_app_id="+appid+"&_app_key="+appkey
+          request = urllib2.urlopen(url)
+          res_string = request.read()
+          d = json.loads(res_string)
+          x = "The calories for this food is "
+          #keys:totalTime,ingredientLines,attribution,name,rating,numberOfServings,yield,nutritionEstimates,source,flavors,images,attributes,id,totalTimeInSeconds
+          x+=str(d['nutritionEstimates'][0].get("value"))
+          return d;
+     except:
+          return False

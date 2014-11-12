@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{d['name']}}
+{% endblock %}
+
+{% block body %}
+
+<h1>{{d['name']}}</h1>
+
+<a href="/">Add to Meal Plan</a><br><br>
+<img height=150 src="{{d['images'][0]['hostedLargeUrl']}}"><br>{{d['images']['hostedLargeUrl']}}
+<br><br>
+<a href="{{d['source']['sourceRecipeUrl']}}">Original Recipe</a><br><br>
+Rating: {{d['rating']}} <br><br>
+Yields {{d['yield']}} <br><br>
+Total Time: {{d['totalTime']}} <br><br>
+Cuisines:
+{% for i in d['attributes']['cuisine'] %}
+{{i}}<br>
+{% endfor %}
+<br><br>
+Ingredients: 
+{% for i in d['ingredientLines'] %}
+{{i}}<br>
+{% endfor %}
+<br><br>
+Flavors: 
+{% for i in d['flavors'] %}
+{{i}}: d['flavors'][i]<br>
+{% endfor %}
+<br><br>
+
+Nutritional Information for {{d['name']}}.<br>
+
+{% for r in d['nutritionEstimates'] %}
+{{r["attribute"]}}: {{r["value"]}} {{r["unit"]["abbreviation"]}}<br>
+{% endfor %}<br>
+
+{% endblock %}

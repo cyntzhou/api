@@ -1,4 +1,4 @@
-from flask import Flask,request,url_for,redirect,render_template
+from flask import Flask,request,url_for,redirect,render_template,session
 from pymongo import MongoClient
 import time
 import urllib2, json
@@ -38,10 +38,15 @@ def test():
                          indent=4, separators=(',',':'))
     #return str(load)
     return "<pre>"+toprint+"</pre>"
-    
+
 @app.route("/get")
-def get():
-    return function.calcFoods("Healthy-Morning-Muffins-Martha-Stewart")
+@app.route("/get/<id>")
+def get(id=""):
+    if id:
+        d = function.calcFoods(id) #returns a dictionary or False
+        if d:
+            return render_template("get.html",d=d)
+    return "Invalid"
     
 @app.route("/search", methods=["GET","POST"])
 def search():
@@ -97,10 +102,8 @@ def search():
             res_string = srch["json"]
             
             d = json.loads(res_string)
-            matches = d['totalMatchCount']
             return render_template("findfoods.html",
                                    tag=tag,
-                                   matches=matches,
                                    d=d)
         else:
             return redirect("/")
