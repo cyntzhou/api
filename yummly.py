@@ -41,11 +41,7 @@ def test():
     
 @app.route("/get")
 def get():
-    #url = "http://api.yummly.com/v1/api/recipe/recipe-id?_app_id=e8e8c50c&_app_key=4c0512521aa32bbd045b29900f91a176Healthy-Morning-Muffins-Martha-Stewart"
-    url = "http://api.yummly.com/v1/api/recipes?_app_id="+appid+"&_app_key="+appkey+"&q=cookie"
-    request = urllib2.urlopen(url)
-    res_string = request.read()
-    return res_string
+    return function.calcFoods("Healthy-Morning-Muffins-Martha-Stewart")
     
 @app.route("/search", methods=["GET","POST"])
 def search():
