@@ -53,7 +53,11 @@ def search():
             keyword = request.form["keyword"].replace(" ","+")
             include = request.form["include"].replace(" ","+").split(",") #list of ingredients with spaces replaced by +, e.g. "large eggs" --> "large+eggs"
             exclude = request.form["exclude"].replace(" ","+").split(",") 
-            maketime = request.form["time"]
+            maketime = request.form["time"] #seconds
+            if maketime:
+                maketime = str(int(request.form["time"])*60) #seconds
+            course = request.form.getlist("course")
+            cuisine = request.form.getlist("cuisine")
             tag = ""
             #return render_template("results.html")
             if keyword:
@@ -67,7 +71,13 @@ def search():
                     if len(i)>0:
                         tag = tag + "&excludedIngredient[]=" + i
             if maketime:
-                tag = tag + "&maxTotalTimeInSeconds=" + maketime            
+                tag = tag + "&maxTotalTimeInSeconds=" + maketime 
+            if cuisine:
+                for i in cuisine:
+                    tag = tag + "&allowedCuisine[]=cuisine^cuisine-" + i
+            if course:
+                for i in course:
+                    tag = tag + "&allowedCourse[]=course^course-" + i
             #checks if the same search has been made in last 24hrs
             #if so, returns a saved copy of the search results
             #otherwise, make api request and save new search results

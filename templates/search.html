@@ -24,18 +24,16 @@ Search
     <input type="text" name="time" placeholder="60"><br>
 
     <label for="Course">Course</label>
-    <input type="checkbox" name="course" value="Appetizers">Appetizers<br>
-    <input type="checkbox" name="course" value="Salads">Salads<br> 
-    <input type="checkbox" name="course" value="Breads">Breads<br> 
-    <input type="checkbox" name="course" value="Soups">Soups<br>
-    <input type="checkbox" name="course" value="Main Dishes">Main Dishes<br>
-    <input type="checkbox" name="course" value="Breakfast and Brunch">Breakfast and Brunch<br> 
-    <input type="checkbox" name="course" value="Lunch and Snacks">Lunch and Snacks<br>
-    <input type="checkbox" name="course" value="Condiments and Sauces">Condiments and Sauces<br>  
-    <input type="checkbox" name="course" value="Side Dishes">Side Dishes<br> 
-    <input type="checkbox" name="course" value="Desserts">Desserts<br>
-    <input type="checkbox" name="course" value="Beverages">Beverages<br> 
-    <input type="checkbox" name="course" value="Cocktails">Cocktails<br>
+    {% for item in ["Appetizers","Salads","Breads","Soups","Main Dishes","Breakfast and Brunch","Lunch and Salad","Condiments and Sauces","Side Dishes","Desserts","Beverages","Cocktails"] %}
+    <input type="checkbox" name="course" value={{item}}>{{item}}<br>
+    {% endfor %}
+    <br>
+
+    <label for="Cuisine">Cuisine</label>
+    {% for item in ["American","Asian","Barbecue","Italian","Mexican","Southern & Soul Food","Southwestern","French","Indian","English","Chinese","Spanish","Mediterranean","Cajun & Creole","Greek","Irish","German","Moroccan","Thai","Japanese","Cuban","Swedish","Hawaiian","Portugese","Hungarian"] %}
+    <input type="checkbox" name="cuisine" value={{item}}>{{item}}<br>
+    {% endfor %}
+
     <input type="submit" class="pure-button pure-button-primary" name="button" value="search">
     <input type="submit" class="pure-button pure-button-primary" name="button" value="cancel">
 
