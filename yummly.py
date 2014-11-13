@@ -15,15 +15,6 @@ db = mongo[dbname]
 recipedb = db['recipes']
 searchdb = db['searches']
 
-@app.route("/")
-def index():
-    return "Yummly"
-
-@app.route("/t")
-@app.route("/t/<tag>")
-def t(tag="Cookies"):
-    return function.findFoods(tag)
-
 @app.route("/test")
 def test():
     jsonname = "cookietest.json"
@@ -48,7 +39,7 @@ def get(id=""):
             return render_template("get.html",d=d)
     return "Invalid"
     
-@app.route("/search", methods=["GET","POST"])
+@app.route("/", methods=["GET","POST"])
 def search():
     if request.method=="GET":
         return render_template("search.html")
