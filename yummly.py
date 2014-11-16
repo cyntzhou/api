@@ -36,7 +36,12 @@ def get(id=""):
     if id:
         d = function.moreInfo(id) #returns a dictionary or False
         if d:
-            return render_template("get.html",d=d)
+            n = {}
+            for r in d['nutritionEstimates']:
+                print r['attribute']
+                print r['description']
+                n[r['attribute']] = str(r['value'])+r['unit']['abbreviation']
+            return render_template("get.html",d=d,n=n)
     return "Invalid"
     
 @app.route("/", methods=["GET","POST"])
@@ -66,10 +71,10 @@ def search():
                     if len(i)>0:
                         tag = tag + "&excludedIngredient[]=" + i
             if maketime:
-                tag = tag + "&maxTotalTimeInSeconds=" + maketime 
+                tag = tag + "&maxTotalTimeInSeconds=" + maketime
             if cuisine:
                 for i in cuisine:
-                    tag = tag + "&allowedCuisine[]=cuisine^cuisine-" + i
+                    tag = tag + "&allowedCuisine[]=cuisine^cuisine-" + i.lower()
             if course:
                 for i in course:
                     tag = tag + "&allowedCourse[]=course^course-" + i

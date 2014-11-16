@@ -19,9 +19,7 @@ def moreInfo(id): #might get an error if invalid recipe-id
           request = urllib2.urlopen(url)
           res_string = request.read()
           d = json.loads(res_string)
-          x = "The calories for this food is "
           #keys:totalTime,ingredientLines,attribution,name,rating,numberOfServings,yield,nutritionEstimates,source,flavors,images,attributes,id,totalTimeInSeconds
-          x+=str(d['nutritionEstimates'][0].get("value"))
           return d;
      except:
           return False

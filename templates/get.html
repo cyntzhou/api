@@ -7,43 +7,66 @@
 {% block body %}
 
 <h1>{{d['name']}}</h1>
-
 <!-- Let's forget about the meal plan idea lol
 <a href="/{{d['id']}}">Add to Meal Plan</a><br><br> -->
-<img height=150 src="{{d['images'][0]['hostedLargeUrl']}}"><br>{{d['images']['hostedLargeUrl']}}
-<br><br>
-<a href="{{d['source']['sourceRecipeUrl']}}">Original Recipe</a><br><br>
-<b>Rating: </b>{{d['rating']}} <br><br>
-{{d['yield']}} <br><br>
-<b>Total Time: </b>{{d['totalTime']}} <br><br>
-<b>Cuisines: </b>
-{% if d['attributes']['cuisine'] %}
-{% for i in d['attributes']['cuisine'] %}
-{{i}}<br>
-{% endfor %}
-{% else %}
-None
-{% endif %}
-<br><br>
-<b>Ingredients: </b>
-{% for i in d['ingredientLines'] %}
-{{i}}<br>
-{% endfor %}
-<br><br>
-<b>Flavors: </b>
-{% if d['flavors'] %}
-{% for i in d['flavors'] %}
-{{i}}: d['flavors'][i]<br>
-{% endfor %}
-{% else %}
-None
-{% endif %}
-<br><br>
 
-<b>Nutritional Information</b>
-<br>
-{% for r in d['nutritionEstimates'] %}
-{{r["attribute"]}}: {{r["value"]}} {{r["unit"]["abbreviation"]}}<br>
-{% endfor %}<br>
+<div class="pure-g">
+  <div class="pure-u-1-2">
+    <div class="1-box">
+      <img height=150 src="{{d['images'][0]['hostedLargeUrl']}}"><br>{{d['images']['hostedLargeUrl']}}
+      <br><br>
+      <a href="{{d['source']['sourceRecipeUrl']}}">Original Recipe</a><br><br>
+      <b>Rating: </b>{{d['rating']}} <br><br>
+      {{d['yield']}} <br><br>
+      <b>Total Time: </b>{{d['totalTime']}} <br><br>
+      <b>Cuisines: </b><br>
+      {% if d['attributes']['cuisine'] %}
+      {% for i in d['attributes']['cuisine'] %}
+      {{i}}<br>
+      {% endfor %}
+      {% else %}
+      None
+      {% endif %}
+      <br><br>
+      <b>Ingredients: </b><br>
+      {% for i in d['ingredientLines'] %}
+      {{i}}<br>
+      {% endfor %}
+      <br><br>
+    </div>
+  </div>
+
+  <div class="pure-u-1-2">
+    <div class="1-box">
+      <b>Flavors: </b><br>
+      {% if d['flavors'] %}
+      {% for i in d['flavors'] %}
+      {{i}}: {{d['flavors'][i]}}<br>
+      {% endfor %}
+      {% else %}
+      None
+      {% endif %}
+      <br><br>
+      
+      <b>Nutritional Information</b>
+      <br>Calories: {{n['ENERC_KCAL']}}
+      <br>Calories from Fat: {{n['FAT_KCAL']}}
+      <br>Total Fat: {{n['FAT']}}
+      <br>Saturated Fat: {{n['FASAT']}}
+      <br>Monosaturated Fat: {{n['FAMS']}}
+      <br>Cholesterol: {{n['CHOLE']}}
+      <br>Sodium: {{n['NA']}}
+      <br>Potassium: {{n['K']}}
+      <br>Total Carbohydrates: {{n['CHOCDF']}}
+      <br>Dietary Fiber: {{n['FIBTG']}}
+      <br>Sugars: {{n['SUGAR']}}
+      <br>Protein: {{n['PROCNT']}}
+      <br>Vitamin A: {{n['VITA_IU']}}
+      <br>Vitamin C: {{n['VITC']}}
+      <br>Calcium: {{n['CA']}}
+      <br>Iron: {{n['FE']}}
+    </div>
+  </div>
+</div>
 
 {% endblock %}

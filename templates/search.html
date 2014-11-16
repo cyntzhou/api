@@ -11,31 +11,50 @@ Search
       Select your criteria!
     </legend>
 
-    <label for="keyword">Keyword</label>
-    <input type="text" name="keyword" placeholder="Keyword"><br>
+    <div class="pure-g">
+      <div class="pure-u-1-3">
+	<div class="1-box">
+	  <label for="keyword"><b>Keyword</b></label>
+	  <input type="text" name="keyword" placeholder="Keyword"><br>
 
-    <label for="ingredients">Ingredients to Include</label>
-    <textarea name="include" placeholder="Ingredients, separated by commas" rows="5" columns="100"></textarea>
+	  <label for="ingredients"><b>Ingredients to Include</b></label>
+	  <textarea name="include" placeholder="Ingredients, separated by commas" rows="5" columns="100"></textarea>
 
-    <label for="ingredients">Ingredients to Exclude</label>
-    <textarea name="exclude" placeholder="Ingredients, separated by commas" rows="5" columns="100"></textarea><br>
+	  <label for="ingredients"><b>Ingredients to Exclude</b></label>
+	  <textarea name="exclude" placeholder="Ingredients, separated by commas" rows="5" columns="100"></textarea><br>
 
-    <label for="time">Maximum Time to Make (minutes)</label>
-    <input type="text" name="time" placeholder="60"><br>
+	  <input type="submit" class="pure-button pure-button-primary" name="button" value="search">
+	  <input type="submit" class="pure-button pure-button-primary" name="button" value="cancel">
 
-    <label for="Course">Course</label>
-    {% for item in ["Appetizers","Salads","Breads","Soups","Main Dishes","Breakfast and Brunch","Lunch and Salad","Condiments and Sauces","Side Dishes","Desserts","Beverages","Cocktails"] %}
-    <input type="checkbox" name="course" value={{item}}>{{item}}<br>
-    {% endfor %}
-    <br>
+	</div>
+      </div>
 
-    <label for="Cuisine">Cuisine</label>
-    {% for item in ["American","Asian","Barbecue","Italian","Mexican","Southern & Soul Food","Southwestern","French","Indian","English","Chinese","Spanish","Mediterranean","Cajun & Creole","Greek","Irish","German","Moroccan","Thai","Japanese","Cuban","Swedish","Hawaiian","Portugese","Hungarian"] %}
-    <input type="checkbox" name="cuisine" value={{item}}>{{item}}<br>
-    {% endfor %}
+      <div class="pure-u-1-3">
+	<div class="1-box">
 
-    <input type="submit" class="pure-button pure-button-primary" name="button" value="search">
-    <input type="submit" class="pure-button pure-button-primary" name="button" value="cancel">
+	  <label for="time"><b>Maximum Time to Make</b> (minutes)</label>
+	  <input type="text" name="time" placeholder="60"><br>
+
+	  <label for="Course"><b>Course</b></label>
+	  {% for item in ["Appetizers","Salads","Breads","Soups","Main Dishes","Breakfast and Brunch","Lunch and Salad","Condiments and Sauces","Side Dishes","Desserts","Beverages","Cocktails"] %}
+	  <input type="checkbox" name="course" value={{item}}>{{item}}<br>
+	  {% endfor %}
+	  <br>
+
+	</div>
+      </div>
+
+      <div class="pure-u-1-3">
+	<div class="1-box">
+
+	  <label for="Cuisine"><b>Cuisine</b></label>
+	  {% for item in ["American","Asian","Barbecue","Italian","Mexican","Southern & Soul Food","Southwestern","French","Indian","English","Chinese","Spanish","Mediterranean","Cajun & Creole","Greek","Irish","German","Moroccan","Thai","Japanese","Cuban","Swedish","Hawaiian","Portugese","Hungarian"] %}
+	  <input type="checkbox" name="cuisine" value={{item}}>{{item}}<br>
+	  {% endfor %}
+
+	</div>
+      </div>
+    </div>
 
   </fieldset>
 </form>
