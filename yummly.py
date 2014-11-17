@@ -99,7 +99,7 @@ def search():
             #This fixes an error where it would crash if no images were found,replace this with a better one if you want
             for x in d['matches']:
                 if 'smallImageUrls' not in x.keys():
-                    x['smallImageUrls']= "http://www.education.umd.edu/Academics/Faculty/Bios/images/generic_sm.jpg"
+                    x['smallImageUrls']= "http://www.woodus.com/den/gallery/graphics/dqm4ds/monster/nopic.png"
 
             
         
