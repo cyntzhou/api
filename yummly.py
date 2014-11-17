@@ -96,15 +96,12 @@ def search():
                 searchdb.insert(srch)
             res_string = srch["json"]
             d = json.loads(res_string)
+            #This fixes an error where it would crash if no images were found,replace this with a better one if you want
+            for x in d['matches']:
+                if 'smallImageUrls' not in x.keys():
+                    x['smallImageUrls']= "http://www.education.umd.edu/Academics/Faculty/Bios/images/generic_sm.jpg"
 
-            #FINDING THE CALORIES RIGHT HERE REALLY SLOWS DOWN THE SEARCH PROCESS; ONE SEARCH WILL TAKE LIKE 15 SECONDS, SO I'M JUST GOING TO SHOW THE CALORIES IN ANOTHER "MORE INFO" PAGE THAT JUST SHOWS THE INFORMATION FOR AN INDIVIDUAL RECIPE
-            #cal = {}
-            #calcNum =0;
-            #for x in d['matches']:
-            #    if 'smallImageUrls' not in x.keys():
-            #        x['smallImageUrls']= "http://www.education.umd.edu/Academics/Faculty/Bios/images/generic_sm.jpg"
-            #    cal[calcNum]= function.calcFoods(x['id'])
-            #    calcNum += 1
+            
         
             return render_template("findfoods.html",
                                    tag=tag,

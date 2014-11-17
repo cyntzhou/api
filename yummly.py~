@@ -1,4 +1,4 @@
-from flask import Flask,request,url_for,redirect,render_template
+from flask import Flask,request,url_for,redirect,render_template,session
 from pymongo import MongoClient
 import time
 import urllib2, json
@@ -15,15 +15,6 @@ db = mongo[dbname]
 recipedb = db['recipes']
 searchdb = db['searches']
 
-@app.route("/")
-def index():
-    return "Yummly"
-
-@app.route("/t")
-@app.route("/t/<tag>")
-def t(tag="Cookies"):
-    return function.findFoods(tag)
-
 @app.route("/test")
 def test():
     jsonname = "cookietest.json"
@@ -38,12 +29,22 @@ def test():
                          indent=4, separators=(',',':'))
     #return str(load)
     return "<pre>"+toprint+"</pre>"
-    
+
 @app.route("/get")
-def get():
-    return function.calcFoods("Healthy-Morning-Muffins-Martha-Stewart")
+@app.route("/get/<id>")
+def get(id=""):
+    if id:
+        d = function.moreInfo(id) #returns a dictionary or False
+        if d:
+            n = {}
+            for r in d['nutritionEstimates']:
+                print r['attribute']
+                print r['description']
+                n[r['attribute']] = str(r['value'])+r['unit']['abbreviation']
+            return render_template("get.html",d=d,n=n)
+    return "Invalid"
     
-@app.route("/search", methods=["GET","POST"])
+@app.route("/", methods=["GET","POST"])
 def search():
     if request.method=="GET":
         return render_template("search.html")
@@ -59,7 +60,6 @@ def search():
             course = request.form.getlist("course")
             cuisine = request.form.getlist("cuisine")
             tag = ""
-            #return render_template("results.html")
             if keyword:
                 tag = tag + "&q=" + keyword
             if include:
@@ -71,10 +71,10 @@ def search():
                     if len(i)>0:
                         tag = tag + "&excludedIngredient[]=" + i
             if maketime:
-                tag = tag + "&maxTotalTimeInSeconds=" + maketime 
+                tag = tag + "&maxTotalTimeInSeconds=" + maketime
             if cuisine:
                 for i in cuisine:
-                    tag = tag + "&allowedCuisine[]=cuisine^cuisine-" + i
+                    tag = tag + "&allowedCuisine[]=cuisine^cuisine-" + i.lower()
             if course:
                 for i in course:
                     tag = tag + "&allowedCourse[]=course^course-" + i
@@ -95,13 +95,21 @@ def search():
                         "json":function.findFoods(tag)}
                 searchdb.insert(srch)
             res_string = srch["json"]
-            
             d = json.loads(res_string)
-            matches = d['totalMatchCount']
+
+            #FINDING THE CALORIES RIGHT HERE REALLY SLOWS DOWN THE SEARCH PROCESS; ONE SEARCH WILL TAKE LIKE 15 SECONDS, SO I'M JUST GOING TO SHOW THE CALORIES IN ANOTHER "MORE INFO" PAGE THAT JUST SHOWS THE INFORMATION FOR AN INDIVIDUAL RECIPE
+            #cal = {}
+            #calcNum =0;
+            #for x in d['matches']:
+            #    if 'smallImageUrls' not in x.keys():
+            #        x['smallImageUrls']= "http://www.education.umd.edu/Academics/Faculty/Bios/images/generic_sm.jpg"
+            #    cal[calcNum]= function.calcFoods(x['id'])
+            #    calcNum += 1
+        
             return render_template("findfoods.html",
                                    tag=tag,
-                                   matches=matches,
                                    d=d)
+            #                       calc = cal)
         else:
             return redirect("/")
 
