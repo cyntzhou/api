@@ -38,6 +38,10 @@
 
   <div class="pure-u-1-2">
     <div class="1-box">
+      <form method="POST">
+	<input type="submit" class="pure-button pure-button-primary" name="button" value="Add to Meal Plan">
+      </form>
+      <br>
       <b>Flavors: </b><br>
       {% if d['flavors'] %}
       {% for i in d['flavors'] %}

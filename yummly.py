@@ -3,6 +3,7 @@ from pymongo import MongoClient
 import time
 import urllib2, json
 import function
+import re
 
 appid = "65fb5a0e"
 appkey = "f8cbfed212e664b2f56f9e04a91c1bc9" 	
@@ -12,8 +13,8 @@ app=Flask(__name__)
 mongo = MongoClient()
 dbname = "cynmiclawyummly"
 db = mongo[dbname]
-recipedb = db['recipes']
 searchdb = db['searches']
+mealdb = db['meals']
 
 @app.route("/test")
 def test():
@@ -31,19 +32,49 @@ def test():
     return "<pre>"+toprint+"</pre>"
 
 @app.route("/get")
-@app.route("/get/<id>")
+@app.route("/get/<id>", methods=["GET","POST"])
 def get(id=""):
     if id:
-        d = function.moreInfo(id) #returns a dictionary or False
-        if d:
-            n = {}
-            for r in d['nutritionEstimates']:
-                print r['attribute']
-                print r['description']
-                n[r['attribute']] = str(r['value'])+r['unit']['abbreviation']
-            return render_template("get.html",d=d,n=n)
+        n = function.nutritionInfo(id) #returns a dict of nutritionalInfo or False
+        d = function.moreInfo(id)
+        if n and d:
+            if request.method=="GET":
+                return render_template("get.html",d=d,n=n)
+            else:
+                button = request.form["button"]
+                if button=="Add to Meal Plan":
+                    n['id'] = id
+                    n['name'] = d['name']
+                    mealdb.insert(n)
+                    print mealdb.find_one({'id':id})
+                    return redirect("/mealplan")
+                return render_template("get.html",d=d,n=n)
     return "Invalid"
-    
+
+@app.route("/mealplan", methods=["GET","POST"])
+def mealplan():
+    if request.method=="POST":
+        button = request.form["button"]
+        if button == "Clear All Recipes":
+            mealdb.remove({})
+        else: #the user must want to remove an individual recipe
+            mealdb.remove({'id':button})
+    d = {'recipes':{}}
+    r = re.compile("[0-9]+")
+    for recipe in mealdb.find():
+        for nutrition in recipe:
+            d['recipes'][recipe['id']] = recipe['name']
+            if not nutrition=='id' and not nutrition=='name':
+                nutrition = nutrition.encode('ascii')
+                value = str(recipe[nutrition])
+                f = r.findall(value)
+                number = f[0] #an int
+                if nutrition in d.keys():
+                    d[nutrition] = int(number)+int(d[nutrition])
+                else:
+                    d[nutrition] = number
+    return render_template("mealplan.html",d=d)
+
 @app.route("/", methods=["GET","POST"])
 def search():
     if request.method=="GET":
@@ -51,12 +82,19 @@ def search():
     else:
         button = request.form["button"]
         if button=="search":
-            keyword = request.form["keyword"].replace(" ","+")
-            include = request.form["include"].replace(" ","+").split(",") #list of ingredients with spaces replaced by +, e.g. "large eggs" --> "large+eggs"
-            exclude = request.form["exclude"].replace(" ","+").split(",") 
+            keyword = request.form["keyword"].strip().replace(" ","+")
+            include = request.form["include"].lower().split(",") #list of ingredients with spaces replaced by +, e.g. "large eggs" --> "large+eggs"
+            exclude = request.form["exclude"].lower().split(",") 
+            for i in include:
+                include[include.index(i)] = i.strip().replace(" ","+") 
+            for i in exclude:
+                exclude[exclude.index(i)] = i.strip().replace(" ","+")
             maketime = request.form["time"] #seconds
             if maketime:
-                maketime = str(int(request.form["time"])*60) #seconds
+                try:
+                    maketime = str(int(request.form["time"])*60) #seconds
+                except:
+                    return "Invalid"
             course = request.form.getlist("course")
             cuisine = request.form.getlist("cuisine")
             tag = ""
@@ -94,15 +132,8 @@ def search():
                         "time":curtime,
                         "json":function.findFoods(tag)}
                 searchdb.insert(srch)
-            res_string = srch["json"]
-            d = json.loads(res_string)
-            #This fixes an error where it would crash if no images were found,replace this with a better one if you want
-            for x in d['matches']:
-                if 'smallImageUrls' not in x.keys():
-                    x['smallImageUrls']= "http://www.woodus.com/den/gallery/graphics/dqm4ds/monster/nopic.png"
 
-            
-        
+            d = function.findFoods(tag)
             return render_template("findfoods.html",
                                    tag=tag,
                                    d=d)

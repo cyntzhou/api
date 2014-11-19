@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Meal Plan
+{% endblock %}
+
+{% block body %}
+
+<h1>Meal Plan</h1>
+
+<div class="pure-g">
+  <div class="pure-u-1-2">
+    <div class="1-box">
+      <b>Recipes In Your Meal Plan:</b>
+      <form method="POST">
+	{% for i in d['recipes'] %}
+	<br>
+	<button type="submit" class="pure-button pure-button-primary" name="button" value="{{i}}">Delete</button>
+	<a href="/get/{{i}}">{{d['recipes'][i]}}</a>
+	<br>
+	{% endfor %}
+	<br><br>
+	<input type="submit" class="pure-button pure-button-primary" name="button" value="Clear All Recipes">
+      </form>
+    </div>
+  </div>
+
+  <div class="pure-u-1-2">
+    <div class="1-box">
+      <b>Nutritional Information</b>
+      <br>Calories: {{d['ENERC_KCAL']}} kcal
+      <br>Calories from Fat: {{d['FAT_KCAL']}} kcal
+      <br>Total Fat: {{d['FAT']}} g
+      <br>Saturated Fat: {{d['FASAT']}} g
+      <br>Monosaturated Fat: {{d['FAMS']}} g
+      <br>Cholesterol: {{d['CHOLE']}} g
+      <br>Sodium: {{d['NA']}} g
+      <br>Potassium: {{d['K']}} g
+      <br>Total Carbohydrates: {{d['CHOCDF']}} g
+      <br>Dietary Fiber: {{d['FIBTG']}} g
+      <br>Sugars: {{d['SUGAR']}} g
+      <br>Protein: {{d['PROCNT']}} g
+      <br>Vitamin A: {{d['VITA_IU']}} IU
+      <br>Vitamin C: {{d['VITC']}} g
+      <br>Calcium: {{d['CA']}} g
+      <br>Iron: {{d['FE']}} g
+    </div>
+  </div>
+</div>
+
+{% endblock %}
