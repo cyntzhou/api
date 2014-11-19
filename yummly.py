@@ -46,7 +46,6 @@ def get(id=""):
                     n['id'] = id
                     n['name'] = d['name']
                     mealdb.insert(n)
-                    print mealdb.find_one({'id':id})
                     return redirect("/mealplan")
                 return render_template("get.html",d=d,n=n)
     return "Invalid"
